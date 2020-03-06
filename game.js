@@ -168,15 +168,15 @@ const draw = () => {
         ctx.fillText("Score: " + score, width - 100, 470);
         
     } else {
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "#001E62";
 		ctx.font = "25px Helvetica";
 		ctx.textAlign = "center";
-		ctx.fillText("GAME OVER!", canvas.width/2, 175);
+		ctx.fillText("GAME OVER!", width/2, 175);
 		
 		ctx.font = "20px Helvetica";
-		ctx.fillText("PRESS SPACE TO PLAY", canvas.width/2, 475);
+		ctx.fillText("PRESS SPACE TO PLAY", width/2, 475);
 		
-		ctx.fillText("FINAL SCORE: " + score, canvas.width/2, 230);
+		ctx.fillText("FINAL SCORE: " + score, width/2, 230);
     }
     // repeat
     window.requestAnimationFrame(draw);
