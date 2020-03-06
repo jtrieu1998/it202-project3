@@ -6,9 +6,13 @@ let score = 0;
 let height = 480;
 let width = 512;
 let moveSpeed = 2;
+let pointThresh = 15;
 let playerSize = 30;
 let min = width;
 let max = width + 700;
+
+let goodBall_img = new Image();
+goodBall_img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/University_of_Illinois_at_Chicago_circle_logo.svg/2000px-University_of_Illinois_at_Chicago_circle_logo.svg.png';
 // let upMove = false;
 // let downMove = false;
 
@@ -136,6 +140,7 @@ function keyDown(event){
                 score = 0;
                 lives = 3;
                 moveSpeed = 2;
+                pointThresh = 15;
                 goodBall.x = [];
                 goodBall.y = [];
                 badBall.x = [];
@@ -153,28 +158,33 @@ const draw = () => {
         drawBalls();
         updateBalls();
         
+        if(score >= pointThresh){
+            pointThresh += 15;
+            moveSpeed+=2;
+        }
+        
         if(lives < 1){
             gameOver = !gameOver;
         }
         
         //lives
         ctx.fillStyle = "#001E62";
-        ctx.font = "20px Helvetica";
+        ctx.font = "20px 'Roboto', sans-serif";
         ctx.fillText("Lives: " + lives, width - 75,25)
 
         //score
         ctx.fillStyle = "001E62";
-        ctx.font = "20px Helvetica";
+        ctx.font = "20px 'Roboto', sans-serif";
         ctx.fillText("Score: " + score, width - 100, 470);
         
     } else {
         ctx.fillStyle = "#001E62";
-		ctx.font = "25px Helvetica";
+		ctx.font = "Roboto 30px sans-serif";
 		ctx.textAlign = "center";
-		ctx.fillText("GAME OVER!", width/2, 175);
+		ctx.fillText("Game Over :(", width/2, 175);
 		
-		ctx.font = "20px Helvetica";
-		ctx.fillText("PRESS SPACE TO PLAY", width/2, 475);
+		ctx.font = "20px 'Roboto', sans-serif";
+		ctx.fillText("Press Space to Begin", width/2, 285);
 		
 		ctx.fillText("FINAL SCORE: " + score, width/2, 230);
     }
