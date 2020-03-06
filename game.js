@@ -5,7 +5,7 @@ let lives = 3;
 let score = 0;
 let height = 480;
 let width = 512;
-let moveSpeed = 3;
+let moveSpeed = 2;
 let playerSize = 30;
 let min = width;
 let max = width + 700;
@@ -82,7 +82,7 @@ function updateBalls(){
         if(player.x < badBall.x[i] + generalBall.radius && player.x + playerSize + generalBall.radius > badBall.x[i] 
            && player.y < badBall.y[i] + generalBall.radius && player.y + playerSize > badBall.y[i]){
             lives--;
-            console.log("Touched the good balls");
+            console.log("Touched the bad balls :(");
             badBall.x[i] = Math.random() * (max - min) + min;
             badBall.y[i] = Math.random() * height;
         }
@@ -100,7 +100,7 @@ function updateBalls(){
         if(player.x < goodBall.x[i] + generalBall.radius && player.x + playerSize + generalBall.radius > goodBall.x[i] 
            && player.y < goodBall.y[i] + generalBall.radius && player.y + playerSize > goodBall.y[i]){
             score++;
-            console.log("Touched the good balls");
+            console.log("Touched the good balls :)");
             goodBall.x[i] = Math.random() * (max - min) + min;
             goodBall.y[i] = Math.random() * height;
         }
@@ -129,30 +129,55 @@ function keyDown(event){
                 player.y += 7;
             }
             break;
+        case 32:
+            if(gameOver){
+                //reset all game variables and begin again
+                gameOver = !gameOver;
+                score = 0;
+                lives = 3;
+                moveSpeed = 2;
+                goodBall.x = [];
+                goodBall.y = [];
+                badBall.x = [];
+                badBall.y = [];
+                generateBalls();
+            }
     }
 }
 generateBalls();
 const draw = () => {
     // clear
     ctx.clearRect (0,0, c.width, c.height);
-    drawPlayer();
-    drawBalls();
-    updateBalls();
-    
-    //player collision
-    
-    
-    
-    //lives
-    ctx.fillStyle = "#001E62";
-    ctx.font = "20px Helvetica";
-    ctx.fillText("Lives: " + lives, width - 75,25)
-    
-    //score
-    ctx.fillStyle = "001E62";
-    ctx.font = "20px Helvetica";
-    ctx.fillText("Score: " + score, width - 100, 470);
-    
+    if(!gameOver){
+        drawPlayer();
+        drawBalls();
+        updateBalls();
+        
+        if(lives < 1){
+            gameOver = !gameOver;
+        }
+        
+        //lives
+        ctx.fillStyle = "#001E62";
+        ctx.font = "20px Helvetica";
+        ctx.fillText("Lives: " + lives, width - 75,25)
+
+        //score
+        ctx.fillStyle = "001E62";
+        ctx.font = "20px Helvetica";
+        ctx.fillText("Score: " + score, width - 100, 470);
+        
+    } else {
+        ctx.fillStyle = "black";
+		ctx.font = "25px Helvetica";
+		ctx.textAlign = "center";
+		ctx.fillText("GAME OVER!", canvas.width/2, 175);
+		
+		ctx.font = "20px Helvetica";
+		ctx.fillText("PRESS SPACE TO PLAY", canvas.width/2, 475);
+		
+		ctx.fillText("FINAL SCORE: " + score, canvas.width/2, 230);
+    }
     // repeat
     window.requestAnimationFrame(draw);
 }
